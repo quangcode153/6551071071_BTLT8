@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Mua vé xem phim - Câu 8</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<table border="1" cellspacing="0" cellpadding="6">
+  <tr><th colspan="2">Mua vé xem phim</th></tr>
+  <tr>
+    <td>Ngày chiếu</td>
+    <td><input type="date" id="ngayChieu"></td>
+  </tr>
+  <tr>
+    <td>Phim</td>
+    <td>
+      <select id="phim">
+        <option value="">-- Chọn phim --</option>
+        <option value="Yêu em từ cái nhìn đầu tiên">Yêu em từ cái nhìn đầu tiên</option>
+        <option value="Mắt biếc">Mắt biếc</option>
+        <option value="Em chưa 18">Em chưa 18</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Suất chiếu</td>
+    <td>
+      <select id="suatChieu">
+        <option value="">-- Chọn suất chiếu --</option>
+        <option value="8h-11h">8h-11h</option>
+        <option value="11h-14h">11h-14h</option>
+        <option value="17h-20h">17h-20h</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Phòng chiếu</td>
+    <td>
+      <select id="phongChieu">
+        <option value="">-- Chọn phòng --</option>
+        <option value="1">Phòng 1</option>
+        <option value="2">Phòng 2</option>
+        <option value="3">Phòng 3</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Chọn chỗ ngồi</td>
+    <td>
+      <select id="choNgoi" multiple size="4">
+        <option value="Ghế 01">Ghế 01</option>
+        <option value="Ghế 02">Ghế 02</option>
+        <option value="Ghế 03">Ghế 03</option>
+        <option value="Ghế 04">Ghế 04</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="text-align:center">
+      <button id="muaVe" type="button">Mua vé</button>
+    </td>
+  </tr>
+</table>
+
+<div class="result" style="display:none;">
+  <h3>Thông tin vé</h3>
+  <p><b>Khách hàng:</b> <span id="outKhach">Nguyễn Văn A</span></p>
+  <p><b>Ngày chiếu:</b> <span id="outNgay"></span></p>
+  <p><b>Phim:</b> <span id="outPhim"></span></p>
+  <p><b>Suất chiếu:</b> <span id="outSuat"></span></p>
+  <p><b>Phòng chiếu:</b> <span id="outPhong"></span></p>
+  <p><b>Ghế:</b> <span id="outGhe"></span></p>
+  <p><b>Tổng tiền:</b> <span id="outTong"></span> đ</p>
+</div>
+
+<script>
+$(document).ready(function() {
+  $("#muaVe").click(function() {
+    const phim = $("#phim").val();
+    const suat = $("#suatChieu").val();
+    const phong = $("#phongChieu").val();
+    const ngay = $("#ngayChieu").val();
+    const ghe = $("#choNgoi").val();
+
+    if (!phim || !suat || !phong || !ngay || !ghe || ghe.length === 0) {
+      alert("Vui lòng chọn đầy đủ thông tin!");
+      return;
+    }
+
+    const parts = ngay.split("-");
+    const formattedNgay = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : ngay;
+
+    
+    let giaVe = 0;
+    if (suat === "8h-11h") giaVe = 45000;
+    else if (suat === "11h-14h") giaVe = 60000;
+    else if (suat === "17h-20h") giaVe = 75000;
+
+    const tongTien = giaVe * ghe.length;
+
+    
+    $("#outNgay").text(formattedNgay);
+    $("#outPhim").text(phim);
+    $("#outSuat").text(suat);
+    $("#outPhong").text(phong);
+    $("#outGhe").text(ghe.join(", "));
+    $("#outTong").text(tongTien.toLocaleString());
+    $(".result").show();
+  });
+});
+</script>
+
+</body>
+</html>

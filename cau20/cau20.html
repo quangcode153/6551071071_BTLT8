@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Slideshow ảnh tự động</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #222;
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 900px;
+      overflow: hidden;
+      background: #111;
+      border-radius: 10px;
+    }
+
+    .slider {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slides img {
+      width: 180px; /* 5 ảnh hiển thị => 900px/5 = 180px */
+      height: 120px;
+      object-fit: cover;
+      margin: 5px;
+      border-radius: 8px;
+    }
+
+    /* Nút điều hướng */
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255,255,255,0.6);
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 50%;
+      user-select: none;
+    }
+
+    .prev:hover, .next:hover {
+      background-color: rgba(255,255,255,0.9);
+    }
+
+    .prev { left: 10px; }
+    .next { right: 10px; }
+  </style>
+</head>
+<body>
+  <div class="slideshow-container">
+    <button class="prev">&#10094;</button>
+    <div class="slider">
+      <div class="slides">
+        <img src="133878011518545770.jpg" alt="Ảnh 1">
+        <img src="133897014945996730.jpg" alt="Ảnh 2">
+        <img src="133908398217813058.jpg" alt="Ảnh 3">
+        <img src="133923784237144211.jpg" alt="Ảnh 4">
+        <img src="avatar-anh-meo-cute-4.jpg" alt="Ảnh 5">
+        <img src="images.jpg" alt="Ảnh 6">
+        <img src="Meo-Cute-4-1.jpg" alt="Ảnh 7">
+        <img src="133923784237144211.jpg" alt="Ảnh 8">
+        <img src="133923784237144211.jpg" alt="Ảnh 9">
+        <img src="133923784237144211.jpg" alt="Ảnh 10">
+      </div>
+    </div>
+    <button class="next">&#10095;</button>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      const $slides = $(".slides");
+      const $images = $(".slides img");
+      const imageWidth = $images.outerWidth(true); // tính cả margin
+      let currentIndex = 0;
+      const totalImages = $images.length;
+      const visibleCount = 5;
+
+      function showSlide(index) {
+        const offset = -index * imageWidth;
+        $slides.css("transform", `translateX(${offset}px)`);
+      }
+
+      $(".next").click(function() {
+        currentIndex++;
+        if (currentIndex > totalImages - visibleCount) currentIndex = 0;
+        showSlide(currentIndex);
+      });
+
+      $(".prev").click(function() {
+        currentIndex--;
+        if (currentIndex < 0) currentIndex = totalImages - visibleCount;
+        showSlide(currentIndex);
+      });
+
+      setInterval(function() {
+        currentIndex++;
+        if (currentIndex > totalImages - visibleCount) currentIndex = 0;
+        showSlide(currentIndex);
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
